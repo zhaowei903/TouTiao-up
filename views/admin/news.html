@@ -1,0 +1,89 @@
+<?php include 'head.html' ?>
+<script src="/assets/admin/js/news.js"></script>
+
+<div class="page-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-default widget animated" style="animation-delay: 0.28s;">
+                <div class="card-heading">
+                    <h3 class="card-title">新闻信息</h3>
+                </div>
+                <div class="card-body">
+
+                    <div class="table-responsive-sm">
+                        <table style="table-layout:fixed" class="table table-bordered table-centered mb-0">
+                            <thead>
+                                <tr>
+                                   <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ID</font></font></th>
+                                   <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CID</font></font></th>
+                                   <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">TITLE</font></font></th>
+                                   <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DSC</font></font></th>
+                                   <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">IMAGE</font></font></th>
+                                   <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">URL</font></font></th>
+                                   <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PUBTIME</font></font></th>
+                                    <th class="text-center"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DELETE</font></font></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody">
+                            <?php foreach($news as $k=>$v) { ?>
+                            <tr data-id="<?php echo $v['id'] ?>">
+                                <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" >
+                                    <input type="text" data-type='id' class="td" placeholder="<?php echo $v['id'] ?>">
+                                </td>
+                                <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" >
+                                    <input type="text" data-type='cid' class="td" placeholder="<?php echo $v['cid'] ?>">
+                                </td>
+                                <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" >
+                                    <input type="text" data-type='title' class="td" placeholder="<?php echo $v['title'] ?>">
+                                </td>
+                                <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" >
+                                    <input type="text" data-type='dsc' class="td" placeholder="<?php echo $v['dsc'] ?>">
+                                </td>
+                                <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" >
+                                    <input type="text" data-type='image' class="td" placeholder="<?php echo $v['image'] ?>">
+                                </td>
+                                <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" >
+                                    <input type="text" data-type='url' class="td" placeholder="<?php echo $v['url'] ?>">
+                                </td>
+                                <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" >
+                                    <input type="text" data-type='pubtime' class="td" placeholder="<?php echo $v['pubtime'] ?>">
+                                </td>
+
+                                <td><button type="button" class="btn btn-round btn-danger remove" style="margin-left:12px;">删除</button></td>
+                            </tr>
+                            <?php } ?>
+                            </tbody>
+                            总条数:
+                            <?php echo $num?>
+                        </table>
+                        <ul id="pagination-demo" class="pagination-sm"></ul>
+                        <script>
+                            $(function(){
+                                $('#pagination-demo').twbsPagination({
+                                    totalPages: <?php echo $page_total?>,
+                                visiblePages: 4,
+                                    startPage:<?php echo $page?>,
+                                onPageClick: function (event, page) {
+                                    console.log(page);
+                                    if(page != <?php echo $page?>){
+                                        location.href="/admin.php?c=news&m=index&page="+page;
+                                    }
+                                }
+                            });
+                            })
+                        </script>
+                    </div>
+                        <div class="button" style="margin-top:10px;">
+                            <button id="add" type="button" class="add btn btn-default">新增</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php include 'foot.html' ?>
+

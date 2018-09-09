@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+  <script src="/assets/public/jquery.twbsPagination.min.js"></script>
+  <link rel="stylesheet" href="/assets/index/css/category.css">
+  <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/index/css/rem.css">
+</head>
+<body>
+<header>
+
+  <div class="top-bar">
+    <div class="text">
+      频道管理
+    </div>
+    <div class="message">
+      <a href="/index.php?c=page&m=index">
+
+      </a>
+    </div>
+
+  </div>
+</header>
+<div class="main delete">
+  <span>点击删除以下频道</span>
+  <ul>
+    <!--<li class="not-move">-->
+      <!--<a href="">推荐</a>-->
+    <!--</li>-->
+    <?php foreach ($category as $k => $v) { ?>
+    <li class="move" id="<?php echo $v['id'] ?>" data-id="<?php echo $v['is_default'] ?>">
+      <a><?php echo $v['name'] ?></a>
+    </li>
+    <?php } ?>
+
+  </ul>
+</div>
+<div class="main add">
+  <span>点击添加以下频道</span>
+  <ul>
+
+  </ul>
+</div>
+<script>
+  $(function () {
+      $('.move').each(function (k,v) {
+          if ($(v).attr('data-id')==0){
+            $(v).appendTo('.add ul');
+          }
+      });
+
+
+$('.add').on('click','.move',function (v) {
+    $.ajax({
+        url:'/index.php?c=page&m=move',
+        data:{
+            is_default:1,
+            id:$(this).attr('id')
+        },
+
+            success(data){
+                location.reload();
+
+            }
+
+    })
+});
+      $('.delete').on('click','.move',function (v) {
+          $.ajax({
+              url:'/index.php?c=page&m=move',
+              data:{
+                  is_default:0,
+                  id:$(this).attr('id')
+              },
+
+              success(data){
+                  location.reload();
+
+              }
+
+          })
+      });
+
+
+
+
+  })
+</script>
+</body>
+</html>

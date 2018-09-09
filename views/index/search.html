@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="/assets/index/css/search.css">
+  <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/index/css/rem.css">
+
+</head>
+<body>
+<header>
+  <div class="top-bar">
+    <div class="text">
+      搜索
+    </div>
+    <div class="message">
+      <a href="/index.php?c=page&m=index">
+
+      </a>
+    </div>
+
+  </div>
+  <form class="top-nav" action="/index.php?c=page&m=search">
+    <a href="" class="button"></a>
+    <div class="arrowdown"></div>
+    <input type="hidden" name="c" value="page">
+    <input type="hidden" name="m" value="search">
+    <input type="text" name="s" placeholder="请输入搜索关键词" class="search">
+  </form>
+</header>
+<div class="content">
+
+    <?php if( $num == null ){ ?>
+    <div id="num">抱歉 没有找到你想要的结果</div>
+    <?php } ?>
+
+    <?php if( $num != null ){ ?>
+    <div id="num">共 <?php  echo $num ?>条结果</div>
+    <?php } ?>
+  <ul id="ul" class="hot-word">
+    <?php foreach($results as $k => $v){ ?>
+    <li><a class="hot_words_link"><?php echo $v['title']?></a>
+    </li>
+    <?php } ?>
+  </ul>
+  <?php if($num!=null){ ?>
+  <button id="loadmore" type="submit" class="btn btn-danger">加载更多</button>
+  <?php } ?>
+
+</div>
+<script>
+  var page = 1;
+  $(function () {
+      // $('.top-nav').submit(function () {
+      //    var s=$('.search').val();
+      //    if (s.trim()){
+      //        location.href='/index.php?c=page&m=searchList&s='+s;
+      //    }else {
+      //        alert('请输入有效关键字')
+      //    }
+      //     return false;
+      // });
+     $('#loadmore').click(function(){
+       $.ajax({
+         url:'/index.php?c=page&m=searchList&s=<?php echo $keyword?>',
+         data:{
+           page: page + 1
+         },
+         success:function(data){
+           page = page + 1;
+           data = JSON.parse(data);
+           if(data.length){
+             data.forEach(v=>{
+               $(`<li>${v.title}</li>`)
+                 .appendTo('#ul');
+             })
+           }else{
+               alert('没有更多');
+               $('#loadmore').remove();
+           }
+         }
+       })
+     })
+  })
+</script>
+</body>
+</html>
